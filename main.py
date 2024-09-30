@@ -1,6 +1,12 @@
 from fastapi import FastAPI
+from pydantic import BaseModel
+
 
 app = FastAPI()
+
+class Blog(BaseModel):
+    title: str 
+    body : str
 
 
 @app.get("/")
@@ -22,3 +28,13 @@ def about(id: int):
     return {"data": {f"{id}": "comments string",
                      f"{id + 1}": "comments of the strings..."}}
     
+@app.get("/blogs")
+def blogs(limit:int=10, published:bool=True, sort: str | None = None):
+    if published:
+        return {"data": f"{limit} published blogs from the db"}
+    else:
+        return {"data": f"{limit} blogs from the db"}
+    
+@app.post("/add_blog")
+def add_blog(request:Blog):
+    return f"Blog with the title {request.title} has been created."

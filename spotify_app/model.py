@@ -3,22 +3,22 @@ from sqlalchemy.orm import relationship
 
 from database import Base
 
-class User(Base):
-    __table_name__ = "users"
+class Artists(Base):
+    __table_name__ = "artist_table"
     
     id = Column(Integer, primary_key=True)
-    email = Column(String, unique=True, index=True)
-    hashed_password = Column(String)
-    is_active = Column(Boolean, default=True)
+    name = Column(String, index=True)
+    song = relationship("Songs", backref='artist')
+
+class Songs(Base):
+    __table_name__ = "songs_table"
     
-    owner = relationship("Item", backref='user')
+    id = Column(Integer, primary_key=True)
+    name = Column(String, unique=True, index=True)
+    popularity = Column(Integer)
+    duration_ms = Column(Integer)
+    artist_id = Column(Integer, ForeignKey("artist.id"))
+    
     
 
-class Item(Base):
-    __table_name__ = "items"
-    
-    id = Column(Integer, primary_key=True)
-    title = Column(String, index=True)
-    description = Column(String, index=True)
-    owner_id = Column(Integer, ForeignKey("users.id"))
     

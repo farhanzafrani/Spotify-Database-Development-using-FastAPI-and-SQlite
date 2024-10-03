@@ -18,6 +18,21 @@ class Songs(Base):
     popularity = Column(Integer)
     duration_ms = Column(Integer)
     artist_id = Column(Integer, ForeignKey("artist.id"))
+
+class Genres(Base):
+    __table__ = "genres_table"
+
+    id = Column(Integer, primary_key=True)
+    genre = Column(String)
+
+class Albums(Base):
+    __table__ = "albums_table"
+
+    id = Column(Integer, primary_key=True)
+    album = Column(String)
+
+
+
     
     
 
